@@ -19,4 +19,8 @@ NbaSchema.methods.apiRepr = function() {
 
 const NBA = mongoose.model('NBA', NbaSchema, 'NBA');
 
-module.exports = NBA;
+module.exports = {
+  NBA,
+  NbaTotalsSchema,
+  NbaPlayerStatsSchema,
+};

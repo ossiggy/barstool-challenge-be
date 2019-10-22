@@ -3,6 +3,12 @@ const express = require('express');
 const passport = require('passport')
 const cors = require('cors');
 const morgan = require('morgan');
+const { dbConnect } = require('./db-mongoose');
+const { router: nbaRouter } = require('./controllers/nba');
+const {
+  PORT,
+  DATABASE_URL,
+} = require('./config');
 
 const app = express();
 
@@ -12,26 +18,20 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(
-    cors({ 
-        origin: CLIENT_ORIGIN
-    })
-);
-
-app.use(
-  morgan(process.env.NODE_ENV === 'production' ? 'common :method :res[headers] :req[headers]' : 'dev', {
-      skip: (req, res) => process.env.NODE_ENV === 'test'
-  })
-);
+// app.use(
+//   cors({ 
+//     origin: CLIENT_ORIGIN
+//   })
+// );
 
 app.use('/nba/', nbaRouter);
-app.use('/mlb/', mlbRouter);
+// app.use('/mlb/', mlbRouter);
 
 let server;
 
 const runServer = (databaseUrl=DATABASE_URL, port=PORT) => {
     return new Promise((resolve, reject) => {
-      mongoose.connect(databaseUrl, {useMongoClient: true}, err =>{
+      mongoose.connect(databaseUrl, { useFindAndModify: false }, err =>{
         if (err) {
           return reject(err);
         }

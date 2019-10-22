@@ -1,4 +1,5 @@
 const { Schema } = require('mongoose');
+const SiteInfoSchema = require('./siteInfo');
 
 const EventInfoSchema = Schema({
   temperature: {type: Number, required: false},
@@ -7,7 +8,7 @@ const EventInfoSchema = Schema({
   status: {type: String, required: false},
   season_type: {type: String, required: false},
   start_date_time: {type: Date, required: true},
-  site: { type: mongoose.Schema.Types.ObjectId, ref: 'SiteInfo' }
+  site: SiteInfoSchema
 });
 
 module.exports = EventInfoSchema;

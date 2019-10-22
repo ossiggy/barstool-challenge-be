@@ -2,102 +2,59 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
+const { Game } = require('../models');
+const { compareDate } = require('../helpers');
+const { nbaService, gameService } = require('../services');
 
 const router = express.Router();
-const { Game } = require('./models');
+const jsonParser = bodyParser.json();
 
-mongoose.Promise=global.Promise;
+mongoose.Promise = global.Promise;
 
-router.get('/', jwtAuth, (req, res) => {
-  Game
-    .find({league: req.league})
-    .exec(function(err){
-      if(err) return 'error';
-    })
-    .then(games => {
-      res.json(games.map(game => game.apiRepr()));
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({error: 'something went wrong'});
-    });
-});
-
-router.get('/:id', jwtAuth, (req, res) => {
-  if(!Article) { 
-    res.status(404).json({error: 'Article not found'});
+router.get('/:id', (req, res) => {
+  if(!Game) { 
+    res.status(404).json({error: 'Game not found'});
   }
   else{
-    Article.findById(req.params.id)
-      .exec(function(err){
-        if(err) return "error";
-      })
-      .then(
-        article => res.json(article.apiRepr()))
+    Game.findById(req.params.id)
+      .then(async (game) => {
+          if (compareDate(game.updatedAt)){
+            console.log('over 15 second mark')
+            const newGame = await gameService.returnUpdated({
+              id: req.params.id,
+              feed: game.feedUrl
+            })
+            return res.json(newGame);
+          }
+          console.log('under 15 second mark');
+          return res.json(game)
+        })
       .catch(err => {
         console.error(err);
-        res.status(500).json({error: 'something went wrong'})
+        return res.status(500).json({error: 'something went wrong'})
       });
   }
 });
 
 router.post('/', jsonParser, (req, res) => {
-  const requiredFields = ['title', 'content', 'category'];
-  for(let i=0; i<requiredFields.length; i++){
-    const field = requiredFields[i];
-    if(!(field in req.body)){
-      const message = `Missing \`${field}\` in request body`;
-      console.log(field);
-      console.error(message);
-    }
-  }
-  const {title, content, category, _parent} = req.body;
-  
-  Article
-    .create({
-      _parent,
-      title,
-      content,
-      category
-    })
-    .then(article => res.status(201).json(article.apiRepr()))
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({message: 'Internal server er;ror'});
-    });   
+  const game = nbaService.create(req.body);
+  Game
+    .create(game, (err, game) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({message: 'Internal server er;ror'});
+      }
+      return res.status(201).json(game)
+    })  
 });
 
-router.put('/:id', jwtAuth, jsonParser, (req, res) => {
-  if(!(req.params.id === req.body.id)){
-    const message = (
-      `Request patch id (${req.params.id} and request body id (${req.body.id}) must match)`);
-    console.error(message);
-    res.status(400).json({message: message});
+router.put('/:id', jsonParser, async (req, res) => {
+  try {
+    const game = await gameService.update({ id: req.params.id, data: req.body});
+    return res.status(201).json(game)
+  } catch (err) {
+    return res.status(500).json({message: 'Internal server error'})
   }
-
-  const toUpdate = {};
-  const updateableFields = ['title', 'content', 'category'];
-
-  updateableFields.forEach(field => {
-    if (field in req.body) {
-      toUpdate[field] = req.body[field];
-    }
-  });
-
-  Article
-    .findOneAndUpdate({_id:req.params.id}, {$set: toUpdate}, {new: true})
-    .exec()
-    .then(post => res.status(204).end())
-    .catch(err => res.status(500).json({message: 'Internal server error'}));
-});
-
-router.delete('/:id', jwtAuth, (req, res) => {
-  Article
-    .findByIdAndRemove(req.params.id)
-    .exec()
-    .then(post => res.status(204).end())
-    .catch(err => res.status(500).json({message: 'Inernal server error'}));
 });
 
 module.exports = {router};

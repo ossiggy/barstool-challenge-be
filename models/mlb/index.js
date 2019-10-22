@@ -36,4 +36,10 @@ MlbSchema.methods.apiRepr = function() {
 
 const MLB = mongoose.model('MLB', MlbSchema);
 
-module.exports = MLB;
+module.exports = {
+  MLB,
+  BatterSchema,
+  PitcherSchema,
+  FielderSchema,
+  BatterTotalsSchema,
+};

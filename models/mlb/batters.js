@@ -1,4 +1,4 @@
-const { Schema } = require('./mongoose');
+const { Schema } = require('mongoose');
 
 const BatterSchema = Schema({
   last_name: {type: String, required: true},
