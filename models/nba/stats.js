@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema } = require('mongoose');
 
-const NbaPlayerStatsSchema = mongoose.Schema({
+const NbaPlayerStatsSchema = Schema({
   last_name: {type: String, required: true},
   first_name: {type: String, required: true},
   display_name: {type: String, required: true},
@@ -27,21 +27,4 @@ const NbaPlayerStatsSchema = mongoose.Schema({
   free_throw_percentage: {type: Number, required: true},
 })
 
-mongoose.model('NbaPlayerStats', NbaPlayerStatsSchema)
-
-const NbaSchema = mongoose.Schema({
-   away_stats: [{type: mongoose.Schema.Types.ObjectId, ref: 'NbaPlayerStats'}],
-   home_stats: [{type: mongoose.Schema.Types.ObjectId, ref: 'NbaPlayerStats'}],
-});
-
-NbaSchema.methods.apiRepr = function() {
-  return {
-    id: this._id || '',
-    away_stats: this.away_stats || '',
-    home_stats: this.home_stats || '',
-  };
-};
-
-const NBA = mongoose.model('NBA', NbaSchema, 'NBA');
-
-module.exports = { NBA }
+module.exports = NbaPlayerStatsSchema;
