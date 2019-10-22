@@ -5,6 +5,7 @@ const EventInfoSchema = require('./eventInfo');
 const OfficialsSchema = require('./officials');
 
 const GameModel = mongoose.Schema({
+  feedUrl: { type: String, required: true },
   league: {type: String, required: true},
   away_team: TeamInfoSchema,
   home_team: TeamInfoSchema,
@@ -21,6 +22,7 @@ const GameModel = mongoose.Schema({
 GameModel.methods.apiRepr = () => {
   return {
     id: this._id || '',
+    feedUrl: this.feedUrl || '',
     league: this.league.toLowerCase() || '',
     stats: this.stats || '',
     totals: this.totals || '',
