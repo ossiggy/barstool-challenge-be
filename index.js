@@ -1,14 +1,11 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const passport = require('passport')
 const cors = require('cors');
 const morgan = require('morgan');
+const express = require('express');
+const passport = require('passport')
+const mongoose = require('mongoose');
 const { dbConnect } = require('./db-mongoose');
-const { router: nbaRouter } = require('./controllers/nba');
-const {
-  PORT,
-  DATABASE_URL,
-} = require('./config');
+const { nbaRouter, mlbRouter } = require('./controllers');
+const { PORT, DATABASE_URL } = require('./config');
 
 const app = express();
 
@@ -25,28 +22,27 @@ app.use((req, res, next) => {
 // );
 
 app.use('/nba/', nbaRouter);
-// app.use('/mlb/', mlbRouter);
+app.use('/mlb/', mlbRouter);
 
 let server;
 
-const runServer = (databaseUrl=DATABASE_URL, port=PORT) => {
-    return new Promise((resolve, reject) => {
-      mongoose.connect(databaseUrl, { useFindAndModify: false }, err =>{
-        if (err) {
-          return reject(err);
-        }
-        server = app.listen(port, () => {
-          console.log(`Your app is listening on port ${port}`);
-          resolve();
-        })
-          .on('error', err => {
-            mongoose.disconnect();
-            reject(err);
-          });
-      });
+const runServer = (databaseUrl = DATABASE_URL, port = PORT) => {
+  return new Promise((resolve, reject) => {
+    mongoose.connect(databaseUrl, { useFindAndModify: false }, err =>{
+      if (err) {
+        return reject(err);
+      }
+      server = app.listen(port, () => {
+        console.log(`Your app is listening on port ${port}`);
+        resolve();
+      })
+        .on('error', err => {
+          mongoose.disconnect();
+          reject(err);
+        });
     });
-  }
-
+  });
+}
 
 const closeServer = () => {
   return mongoose.disconnect().then(() => {
@@ -63,8 +59,8 @@ const closeServer = () => {
 }
 
 if (require.main === module) {
-    dbConnect();
-    runServer();
+  dbConnect();
+  runServer();
 }
 
-module.exports = {app, runServer, closeServer};
+module.exports = { app, runServer, closeServer };

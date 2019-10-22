@@ -1,12 +1,14 @@
-const { create } = require('./nbaService');
-const { update, returnUpdated } = require('./gameService');
+const { create, update, returnUpdated } = require('./nbaService');
 
 module.exports = {
   nbaService: {
-    create
-  },
-  gameService: {
+    create,
     update,
     returnUpdated
-  }
-}
+  },
+  mlbService: {
+    create,
+    update,
+    returnUpdated
+  },
+};

@@ -18,7 +18,7 @@ const MlbSchema = mongoose.Schema({
   home_batter_totals: BatterTotalsSchema,
 });
 
-MlbSchema.methods.apiRepr = function() {
+MlbSchema.methods.apiRepr = () => {
   return {
     id: this._id || '',
     away_errors: this.away_errors || '',

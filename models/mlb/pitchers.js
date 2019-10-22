@@ -25,6 +25,6 @@ const PitcherSchema = Schema({
   hit_by_pitch: {type: Number, required: true},
   _errors: {type: Number, required: true},
   team_abbreviation: {type: String, required: true}
-})
+});
 
 module.exports = PitcherSchema;

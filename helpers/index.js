@@ -13,6 +13,4 @@ const compareDate = (prev) => {
   return false;
 };
 
-module.exports = {
-  compareDate
-};
+module.exports = { compareDate };

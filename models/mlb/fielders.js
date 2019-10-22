@@ -6,6 +6,6 @@ const FielderSchema = Schema({
   display_name: {type: String, required: true},
   _errors: {type: Number, required: true},
   team_abbreviation: {type: String, required: true},
-})
+});
 
 module.exports = FielderSchema;

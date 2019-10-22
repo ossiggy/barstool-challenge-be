@@ -9,15 +9,15 @@ const dbConnect = (url = DATABASE_URL) => {
         console.error('Mongoose failed to connect');
         console.error(err);
     });
-}
+};
 
 const dbDisconnect = () => {
     return mongoose.disconnect();
-}
+};
 
 const dbGet = () => {
     return mongoose;
-}
+};
 
 module.exports = {
     dbConnect,

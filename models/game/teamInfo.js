@@ -11,6 +11,6 @@ const TeamInfoSchema = Schema({
   site_name: {type: String, required: true},
   city: {type: String, required: true},
   full_name: {type: String, required: true},
-})
+});
 
 module.exports = TeamInfoSchema;

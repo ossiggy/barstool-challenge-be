@@ -45,6 +45,6 @@ const BatterSchema = Schema({
   obp_string: {type: String, required: true},
   avg_string: {type: String, required: true},
   batting_highlights: {type: String, required: true},
-})
+});
 
 module.exports = BatterSchema;
