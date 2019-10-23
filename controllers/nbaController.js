@@ -31,7 +31,7 @@ router.get('/:id', (req, res) => {
         })
       .catch(err => {
         console.error(err);
-        return res.status(500).json({error: 'something went wrong'});
+        return res.status(500).json({error: 'something went wrong', message: err.message});
       });
   };
 });
@@ -39,7 +39,7 @@ router.get('/:id', (req, res) => {
 router.post('/', jsonParser, (req, res) => {
   const { body } = req;
   if (!isValid(body, nbaFields) || body.league !== 'NBA'){
-    return res.status(403).json({error: 'format invalid, expected NBA fields'})
+    return res.status(403).json({error: 'format invalid, expected NBA fields', error: err.message})
   }
 
   const game = nbaService.create(req.body);
@@ -48,7 +48,7 @@ router.post('/', jsonParser, (req, res) => {
     .create(game, (err, game) => {
       if (err) {
         console.error(err);
-        return res.status(500).json({message: 'Internal server er;ror'});
+        return res.status(500).json({ message: 'Internal server error', error: err.message });
       }
       return res.status(201).json(game);
     });
