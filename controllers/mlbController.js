@@ -19,7 +19,7 @@ router.get('/:id', (req, res) => {
     Game.findById(req.params.id)
       .then(async (game) => {
           if (compareDate(game.updatedAt)){
-            console.log('over 15 second mark');
+            console.log('over 15 second mark', game.feedUrl);
             const newGame = await mlbService.returnUpdated({
               id: req.params.id,
               feed: game.feedUrl

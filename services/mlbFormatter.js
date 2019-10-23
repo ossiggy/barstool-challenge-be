@@ -4,15 +4,24 @@ const { getData } = require('./gameData');
 
 const cleanPitchers = (pitchers) => {
   return pitchers.map(pitcher => {
-    delete Object.assign(pitcher, { _errors: pitcher.errors })[pitcher.errors];
-    delete Object.assign(pitcher, { _save: pitcher.save })[pitcher.save];
+    const newPitcher = Object.assign({}, pitcher, {
+      _errors: pitcher.errors,
+      _save: pitcher.save
+    })
+    delete newPitcher.errors;
+    delete newPitcher.save;
+    return newPitcher;
   })
 };
 
 const cleanFielders = (fielders) => {
   return fielders.map(fielder => {
-    delete Object.assign(fielder, { _errors: fielder.errors })[fielder.errors];
-  })
+    const newFielder = Object.assign({}, fielder, {
+      _errors: fielder.errors
+    })
+    delete newFielder.errors;
+    return newFielder;
+  });
 }
 
 const cleanData = ({
@@ -92,6 +101,7 @@ const returnUpdated = async (params) => {
   const { id, feed } = params;
   try {
     const newData = await getData(feed);
+    newData.feedUrl = feed;
     return await update({id, data: newData});
   } catch (err) {
     return err;
