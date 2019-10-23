@@ -2,8 +2,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { Game } = require('../models');
-const { compareDate } = require('../helpers');
+const { Game, nbaFields } = require('../models');
+const { compareDate, isValid } = require('../helpers');
 const { nbaService } = require('../services');
 
 const router = express.Router();
@@ -23,7 +23,7 @@ router.get('/:id', (req, res) => {
             const newGame = await nbaService.returnUpdated({
               id: req.params.id,
               feed: game.feedUrl
-            })
+            });
             return res.json(newGame);
           }
           console.log('under 15 second mark');
@@ -37,7 +37,13 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', jsonParser, (req, res) => {
+  const { body } = req;
+  if (!isValid(body, nbaFields) || body.league !== 'NBA'){
+    return res.status(403).json({error: 'format invalid, expected NBA fields'})
+  }
+
   const game = nbaService.create(req.body);
+
   Game
     .create(game, (err, game) => {
       if (err) {
@@ -57,4 +63,4 @@ router.put('/:id', jsonParser, async (req, res) => {
   }
 });
 
-module.exports = nbaRouter;
+module.exports = { router };

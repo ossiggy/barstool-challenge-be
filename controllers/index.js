@@ -1,5 +1,5 @@
-const nbaRouter = require('./nbaController');
-const mlbRouter = require('./nbaController');
+const { router: nbaRouter } = require('./nbaController');
+const { router: mlbRouter } = require('./mlbController');
 
 module.exports = {
   nbaRouter,

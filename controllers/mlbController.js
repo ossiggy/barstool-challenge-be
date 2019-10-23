@@ -2,8 +2,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { Game } = require('../models');
-const { compareDate } = require('../helpers');
+const { Game, mlbFields } = require('../models');
+const { compareDate, isValid } = require('../helpers');
 const { mlbService } = require('../services');
 
 const router = express.Router();
@@ -23,7 +23,7 @@ router.get('/:id', (req, res) => {
             const newGame = await mlbService.returnUpdated({
               id: req.params.id,
               feed: game.feedUrl
-            })
+            });
             return res.json(newGame);
           }
           console.log('under 15 second mark');
@@ -31,20 +31,27 @@ router.get('/:id', (req, res) => {
         })
       .catch(err => {
         console.error(err);
-        return res.status(500).json({error: 'something went wrong'});
+        return res.status(500).json({error: 'something went wrong', message: err.message});
       });
   };
 });
 
 router.post('/', jsonParser, (req, res) => {
+  const { body } = req;
+  if (!isValid(body, mlbFields) || body.league !== 'MLB'){
+    return res.status(403).json({ message: 'format invalid, expected MLB fields', error: err.message })
+  }
+
   const game = mlbService.create(req.body);
-  Game.create(game, (err, game) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ message: 'Internal server er;ror' });
-    }
-    return res.status(201).json(game);
-  });
+
+  Game
+    .create(game, (err, game) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal server error', error: err.message });
+      }
+      return res.status(201).json(game);
+    });
 });
 
 router.put('/:id', jsonParser, async (req, res) => {
@@ -56,4 +63,4 @@ router.put('/:id', jsonParser, async (req, res) => {
   }
 });
 
-module.exports = mlbRouter;
+module.exports = { router };

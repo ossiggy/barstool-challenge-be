@@ -1,7 +1,5 @@
 const cors = require('cors');
-const morgan = require('morgan');
 const express = require('express');
-const passport = require('passport')
 const mongoose = require('mongoose');
 const { dbConnect } = require('./db-mongoose');
 const { nbaRouter, mlbRouter } = require('./controllers');

@@ -71,7 +71,7 @@ const create = ({
 };
 
 module.exports = {
-  create,
-  update,
-  returnUpdated,
+  createNba: create,
+  updateNba: update,
+  returnUpdatedNba: returnUpdated,
 };

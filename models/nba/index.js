@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const nbaFields = require('./requiredFields');
 const NbaTotalsSchema = require('./totals');
 const NbaPlayerStatsSchema = require('./stats');
 
@@ -21,6 +22,7 @@ const NBA = mongoose.model('NBA', NbaSchema, 'NBA');
 
 module.exports = {
   NBA,
+  nbaFields,
   NbaTotalsSchema,
   NbaPlayerStatsSchema,
 };

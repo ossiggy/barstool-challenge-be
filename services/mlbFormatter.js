@@ -3,14 +3,14 @@ const { Game } = require('../models');
 
 const cleanPitchers = (pitchers) => {
   return pitchers.map(pitcher => {
-    delete Object.assign(pitcher, { [_errors]: pitcher[errors] })[errors];
-    delete Object.assign(pitcher, { [_save]: pitcher[save] })[save];
+    delete Object.assign(pitcher, { _errors: pitcher.errors })[pitcher.errors];
+    delete Object.assign(pitcher, { _save: pitcher.save })[pitcher.save];
   })
 };
 
 const cleanFielders = (fielders) => {
   return fielders.map(fielder => {
-    delete Object.assign(fielder, { [_errors]: fielder[errors] })[errors];
+    delete Object.assign(fielder, { _errors: fielder.errors })[fielder.errors];
   })
 }
 
@@ -101,7 +101,7 @@ const create = (params) => {
 };
 
 module.exports = {
-  create,
-  update,
-  returnUpdated,
+  createMlb: create,
+  updateMlb: update,
+  returnUpdatedMlb: returnUpdated,
 };
