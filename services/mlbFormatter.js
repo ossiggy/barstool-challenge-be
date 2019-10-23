@@ -1,5 +1,6 @@
 // errors is _errors and save is _save
 const { Game } = require('../models');
+const { getData } = require('./gameData');
 
 const cleanPitchers = (pitchers) => {
   return pitchers.map(pitcher => {
@@ -67,6 +68,7 @@ const cleanData = ({
 };
 
 const update = (params) => {
+  console.log('called!')
   const { id, data } = params;
   const cleaned = cleanData(data);
   const updateData = Object.assign({}, cleaned, {
