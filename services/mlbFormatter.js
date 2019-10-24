@@ -52,14 +52,18 @@ const cleanData = ({
     away_period_scores,
     home_period_scores,
     stats: {
-      away_errors,
-      home_errors,
-      away_batters,
-      home_batters,
-      away_pitchers: cleanPitchers(away_pitchers),
-      home_pitchers: cleanPitchers(home_pitchers),
-      away_fielding: cleanFielders(away_fielding),
-      home_fielding: cleanFielders(home_fielding),
+      away: {
+        _errors: away_errors,
+        batters: away_batters,
+        pitchers: cleanPitchers(away_pitchers),
+        fielding: cleanFielders(away_fielding)
+      },
+      home: {
+        _errors: home_errors,
+        batters: home_batters,
+        pitchers: cleanPitchers(home_pitchers),
+        fielding: cleanFielders(home_fielding),
+      }
     },
     totals: {
       away_batter_totals,
