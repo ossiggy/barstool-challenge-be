@@ -119,5 +119,8 @@ const create = (params) => {
 module.exports = {
   createMlb: create,
   updateMlb: update,
+  cleanData,
+  cleanPitchers,
+  cleanFielders,
   returnUpdatedMlb: returnUpdated,
 };
