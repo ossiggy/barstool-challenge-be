@@ -14,7 +14,7 @@ const GameSchema = mongoose.Schema({
   home_period_scores: [{ type: Number, required: true }],
   eventInfo: EventInfoSchema,
   officials: [OfficialsSchema],
-  updatedAt: {type: Date, default: Date.now, required: true}
+  updatedAt: {type: Date, default: Date.now, required: false}
 });
 
 const Game = mongoose.model('Game', GameSchema);
