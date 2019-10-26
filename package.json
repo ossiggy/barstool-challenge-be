@@ -26,6 +26,8 @@
     "passport": "^0.4.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
+    "sinon": "^7.5.0",
+    "sinon-chai": "^3.3.0",
     "unix-timestamp": "^0.2.0"
   },
   "devDependencies": {
