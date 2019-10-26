@@ -1,9 +1,14 @@
 const { getData } = require('./gameData');
-const { createNba, updateNba, returnUpdatedNba } = require('./nbaService');
+const {
+  createNba,
+  updateNba,
+  cleanNbaData,
+  returnUpdatedNba
+} = require('./nbaService');
 const {
   createMlb,
   updateMlb,
-  cleanData,
+  cleanMlbData,
   cleanPitchers,
   cleanFielders,
   returnUpdatedMlb 
@@ -13,12 +18,13 @@ module.exports = {
   nbaService: {
     create: createNba,
     update: updateNba,
+    cleanData: cleanNbaData,
     returnUpdated: returnUpdatedNba
   },
   mlbService: {
     create: createMlb,
     update: updateMlb,
-    cleanData,
+    cleanData: cleanMlbData,
     cleanPitchers,
     cleanFielders,
     returnUpdated: returnUpdatedMlb

@@ -1,9 +1,10 @@
 // errors is _errors and save is _save
+const { map } = require('lodash');
 const { Game } = require('../models');
 const { getData } = require('./gameData');
 
 const cleanPitchers = (pitchers) => {
-  return pitchers.map(pitcher => {
+  return map(pitchers, pitcher => {
     const newPitcher = Object.assign({}, pitcher, {
       _errors: pitcher.errors,
       _save: pitcher.save
@@ -15,7 +16,7 @@ const cleanPitchers = (pitchers) => {
 };
 
 const cleanFielders = (fielders) => {
-  return fielders.map(fielder => {
+  return map(fielders, fielder => {
     const newFielder = Object.assign({}, fielder, {
       _errors: fielder.errors
     })
@@ -76,12 +77,12 @@ const cleanData = ({
         first_name: official.first_name,
         last_name: official.last_name
       }
-    })
+    }),
+    updatedAt: new Date()
   };
 };
 
 const update = (params) => {
-  console.log('called!')
   const { id, data } = params;
   const cleaned = cleanData(data);
   const updateData = Object.assign({}, cleaned, {
@@ -119,7 +120,7 @@ const create = (params) => {
 module.exports = {
   createMlb: create,
   updateMlb: update,
-  cleanData,
+  cleanMlbData: cleanData,
   cleanPitchers,
   cleanFielders,
   returnUpdatedMlb: returnUpdated,

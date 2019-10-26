@@ -1,36 +1,36 @@
-const { Game } = require('../models');
-const { getData } = require('./gameData');
+const { Game } = require("../models");
+const { getData } = require("./gameData");
 
-const update = (params) => {
+const update = params => {
   const { id, data } = params;
   const updateData = Object.assign({}, data, {
     updatedAt: new Date()
   });
 
-  return Game
-  .findOneAndUpdate(
-    {_id: id}, 
-    {$set: updateData}, 
-    {new: true}, 
+  return Game.findOneAndUpdate(
+    { _id: id },
+    { $set: updateData },
+    { new: true },
     (err, game) => {
-    if (err) {
-      return err;
+      if (err) {
+        return err;
+      }
+      return game;
     }
-    return game;
-  });
+  );
 };
 
-const returnUpdated = async (params) => {
+const returnUpdated = async params => {
   const { id, feed } = params;
   try {
     const newData = await getData(feed);
-    return await update({id, data: newData});
+    return await update({ id, data: newData });
   } catch (err) {
     return err;
-  };
+  }
 };
 
-const create = ({
+const cleanData = ({
   feedUrl,
   league,
   officials,
@@ -42,9 +42,9 @@ const create = ({
   away_totals,
   event_information,
   away_period_scores,
-  home_period_scores,
+  home_period_scores
 }) => {
-  return new Game({
+  return {
     feedUrl,
     league,
     away_team,
@@ -57,21 +57,27 @@ const create = ({
     },
     totals: {
       home_totals,
-      away_totals,
+      away_totals
     },
     eventInfo: event_information,
     officials: officials.map(official => {
       return {
-        position: official.position || '',
+        position: official.position || "",
         first_name: official.first_name,
         last_name: official.last_name
-      }
-    })
-  });
+      };
+    }),
+    updatedAt: new Date()
+  };
+};
+
+const create = params => {
+  return new Game(cleanData(params));
 };
 
 module.exports = {
   createNba: create,
   updateNba: update,
-  returnUpdatedNba: returnUpdated,
+  cleanNbaData: cleanData,
+  returnUpdatedNba: returnUpdated
 };
