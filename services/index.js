@@ -1,5 +1,6 @@
-const { createNba, updateNba, returnUpdatedNba } = require('./nbaFormatter');
-const { createMlb, updateMlb, returnUpdatedMlb } = require('./mlbFormatter');
+const { getData } = require('./gameData');
+const { createNba, updateNba, returnUpdatedNba } = require('./nbaService');
+const { createMlb, updateMlb, returnUpdatedMlb } = require('./mlbService');
 
 module.exports = {
   nbaService: {
@@ -12,4 +13,7 @@ module.exports = {
     update: updateMlb,
     returnUpdated: returnUpdatedMlb
   },
+  gameService: {
+    getData
+  }
 };
