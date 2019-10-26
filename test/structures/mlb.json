@@ -1,4 +1,6 @@
 {
+  "feedUrl": "foobar.com",
+  "updatedAt": "2019-10-26T18:25:01.051Z",
   "league": "MLB",
   "away_team" : {
     "team_id" : "seattle-mariners",

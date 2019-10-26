@@ -1,4 +1,6 @@
 {
+  "feedUrl": "foobar.com",
+  "updatedAt": "2019-10-26T18:25:01.051Z",
   "league": "NBA",
   "away_team": {
       "team_id": "oklahoma-city-thunder",
