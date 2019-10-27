@@ -88,7 +88,6 @@ const update = (params) => {
   const updateData = Object.assign({}, cleaned, {
     updatedAt: new Date()
   });
-
   return Game
   .findOneAndUpdate(
     {_id: id}, 
@@ -107,6 +106,7 @@ const returnUpdated = async (params) => {
   try {
     const newData = await getData(feed);
     newData.feedUrl = feed;
+    console.log(newData);
     return await update({id, data: newData});
   } catch (err) {
     return err;

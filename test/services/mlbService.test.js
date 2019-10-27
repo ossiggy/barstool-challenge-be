@@ -91,13 +91,21 @@ describe('mlbService', () => {
       sandbox.restore();
     });
 
-    it('should return an updated Game instance', () => {
+    it('should return an updated Game instance', (done) => {
       const newDate = new Date();
       const updateObj = Object.assign({}, testData, { feedUrl: 'foo.com', updatedAt: newDate });
-      const stubUpdate = sandbox.stub(Game, 'findOneAndUpdate').yields(null, updateObj);
+      sandbox.stub(Game, 'findOneAndUpdate').resolves(mlbService.cleanData(updateObj));
       const result = mlbService.update({id: '12345', data: updateObj});
+      done();
       assert.equal(result.feedUrl, 'foo.com');
       assert.equal(result.updatedAt, newDate);
+    });
+  });
+
+  describe('create', () => {
+    it('should create a new instance of Game', () => {
+      const result = mlbService.create(testData);
+      assert.equal(result instanceof Game, true);
     });
   });
 });
