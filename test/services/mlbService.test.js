@@ -1,25 +1,38 @@
-const assert = require('chai').assert;
 const sinon = require('sinon');
-const { Game } = require('../../models');
-const { mlbService } = require('../../services');
+const assert = require('chai').assert;
 const testData = require('../structures/mlb.json')
+const { mlbService, gameService } = require('../../services');
+const {
+  Game,
+  mlbBatterFields,
+  mlbPitcherFields,
+  mlbFielderFields
+} = require('../../models');
 
 describe('mlbService', () => {
   describe('cleanPitchers', () => {
-    it('should replace "errors" and "save" with "_errors" and "_save"', () => {
-      const payload = [{errors: 'foo', save: 'bar'}];
-      const cleaned = mlbService.cleanPitchers(payload)
-      assert.isOk(cleaned, 'not a valid payload');
-      assert.deepEqual(Object.keys(cleaned[0]), ['_errors', '_save'])
+    it('should have correct home and away pitcher keys', () => {
+      const homeCleaned = mlbService.cleanPitchers(testData.home_pitchers);
+      const awayCleaned = mlbService.cleanPitchers(testData.away_pitchers);
+      const hasHomeKeys = mlbPitcherFields.reduce((acc, x) => acc && homeCleaned[0].hasOwnProperty(x));
+      const hasAwayKeys = mlbPitcherFields.reduce((acc, x) => acc && awayCleaned[0].hasOwnProperty(x));
+      assert.isOk(homeCleaned, 'not a valid payload');
+      assert.isOk(awayCleaned, 'not a valid payload');
+      assert.equal(hasHomeKeys, true);
+      assert.equal(hasAwayKeys, true);
     });
   });
 
   describe('cleanFielders', () => {
-    it('should replace "errors" with "_errors"', () => {
-      const payload = [{errors: 'foo'}];
-      const cleaned = mlbService.cleanFielders(payload)
-      assert.isOk(cleaned, 'not a valid payload');
-      assert.deepEqual(Object.keys(cleaned[0]), ['_errors'])
+    it('should have correct home and away fielder keys', () => {
+      const homeCleaned = mlbService.cleanFielders(testData.home_fielding);
+      const awayCleaned = mlbService.cleanFielders(testData.away_fielding);
+      const hasHomeKeys = mlbFielderFields.reduce((acc, x) => acc && homeCleaned[0].hasOwnProperty(x));
+      const hasAwayKeys = mlbFielderFields.reduce((acc, x) => acc && awayCleaned[0].hasOwnProperty(x));
+      assert.isOk(homeCleaned, 'not a valid payload');
+      assert.isOk(awayCleaned, 'not a valid payload');
+      assert.equal(hasHomeKeys, true);
+      assert.equal(hasAwayKeys, true);
     });
   });
 
@@ -40,18 +53,18 @@ describe('mlbService', () => {
 
     const cleaned = mlbService.cleanData(testData);
 
-    it('should have the correct keys', () => {
+    it('should create the correct keys', () => {
       const hasKeys = keys.reduce((acc, x) => acc && cleaned.hasOwnProperty(x));
       assert.equal(hasKeys, true);
     });
 
-    it('should have "away" and "home" keys under "stats"', () => {
+    it('should create "away" and "home" keys under "stats"', () => {
       const { stats } = cleaned;
       assert.equal(stats.hasOwnProperty('away'), true);
       assert.equal(stats.hasOwnProperty('home'), true);
     });
 
-    it('should have correct keys for "home" and "away"', () => {
+    it('should create correct keys for "home" and "away"', () => {
       const { home, away } = cleaned.stats;
       const statsKeys = [
         '_errors',
@@ -66,13 +79,21 @@ describe('mlbService', () => {
       assert.equal(homeKeys, true);
     });
 
-    it('should have correct keys for "totals"', () => {
+    it('should create correct home and away batter keys', () => {
+      const { home, away } = cleaned.stats;
+      const hasHomeKeys = mlbBatterFields.reduce((acc, x) => acc && home.batters[0].hasOwnProperty(x));
+      const hasAwayKeys = mlbBatterFields.reduce((acc, x) => acc && away.batters[0].hasOwnProperty(x));
+      assert.equal(hasHomeKeys, true);
+      assert.equal(hasAwayKeys, true);
+    });
+
+    it('should create correct keys for "totals"', () => {
       const { totals } = cleaned;
       assert.equal(totals.hasOwnProperty('away_batter_totals'), true);
       assert.equal(totals.hasOwnProperty('home_batter_totals'), true);
     });
 
-    it('should have correct keys for officials', () => {
+    it('should create correct keys for officials', () => {
       const { officials } = cleaned;
       assert.equal(officials[0].hasOwnProperty('position'), true);
       assert.equal(officials[0].hasOwnProperty('first_name'), true);
@@ -99,6 +120,31 @@ describe('mlbService', () => {
       done();
       assert.equal(result.feedUrl, 'foo.com');
       assert.equal(result.updatedAt, newDate);
+      assert.equal(result instanceof Game, true);
+    });
+  });
+
+  describe('returnUpdated', () => {
+    let sandbox = null;
+
+    beforeEach('set sandbox', () => {
+      sandbox = sinon.createSandbox();
+    });
+
+    afterEach('restore stub', () => {
+      sandbox.restore();
+    });
+
+    it('should retrieve new data and return an updated instance of Game', (done) => {
+      const newDate = new Date();
+      const updateObj = Object.assign({}, testData, { feedUrl: 'foo.com', updatedAt: newDate });
+      sandbox.stub(gameService, 'getData').resolves(testData);
+      sandbox.stub(mlbService, 'update').resolves(mlbService.cleanData(updateObj));
+      const result = mlbService.returnUpdated({ id: '12345', feed: 'foo.com' });
+      done();
+      assert.equal(result.feedUrl, 'foo.com');
+      assert.equal(result.updatedAt, newDate);
+      assert.equal(result instanceof Game, true);
     });
   });
 
