@@ -20,6 +20,7 @@ const {
 
 const { 
   Game,
+  gameFields,
   TeamInfoSchema,
   EventInfoSchema,
   OfficialsSchema,
@@ -31,6 +32,7 @@ module.exports = {
   Game,
   nbaFields,
   mlbFields,
+  gameFields,
   BatterSchema,
   PitcherSchema,
   FielderSchema,

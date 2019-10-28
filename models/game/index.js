@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const gameFields = require('./requiredFields');
 const TeamInfoSchema = require('./teamInfo');
 const EventInfoSchema = require('./eventInfo');
 const OfficialsSchema = require('./officials');
@@ -21,6 +22,7 @@ const Game = mongoose.model('Game', GameSchema);
 
 module.exports = {
   Game,
+  gameFields,
   TeamInfoSchema,
   EventInfoSchema,
   OfficialsSchema,
