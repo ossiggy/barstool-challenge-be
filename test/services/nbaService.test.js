@@ -1,5 +1,5 @@
-const assert = require('chai').assert;
 const sinon = require('sinon');
+const assert = require('chai').assert;
 const { Game, nbaPlayerFields } = require('../../models');
 const { nbaService, gameService } = require('../../services');
 const testData = require('../structures/nba.json')
