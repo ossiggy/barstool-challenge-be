@@ -1,6 +1,7 @@
 const {
   NBA,
   nbaFields,
+  nbaPlayerFields,
   NbaTotalsSchema,
   NbaPlayerStatsSchema,
 } = require('./nba');
@@ -11,6 +12,9 @@ const {
   BatterSchema,
   PitcherSchema,
   FielderSchema,
+  mlbBatterFields,
+  mlbPitcherFields,
+  mlbFielderFields,
   BatterTotalsSchema,
 } = require('./mlb');
 
@@ -34,6 +38,10 @@ module.exports = {
   EventInfoSchema,
   OfficialsSchema,
   NbaTotalsSchema,
+  nbaPlayerFields,
+  mlbBatterFields,
+  mlbPitcherFields,
+  mlbFielderFields,
   BatterTotalsSchema,
   NbaPlayerStatsSchema,
 };

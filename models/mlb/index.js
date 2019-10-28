@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
-const mlbFields = require('./requiredFields');
+const {
+  mlbFields,
+  mlbBatterFields,
+  mlbPitcherFields,
+  mlbFielderFields
+} = require('./requiredFields');
 const BatterSchema = require('./batters');
 const PitcherSchema = require('./pitchers');
 const FielderSchema = require('./fielders');
@@ -42,5 +47,8 @@ module.exports = {
   BatterSchema,
   PitcherSchema,
   FielderSchema,
+  mlbBatterFields,
+  mlbPitcherFields,
+  mlbFielderFields,
   BatterTotalsSchema,
 };
