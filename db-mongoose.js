@@ -1,26 +1,32 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
-const { DATABASE_URL } = require('./config');
+const { DATABASE_URL } = require("./config");
+
+const mongoOptions = {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true
+};
 
 const dbConnect = (url = DATABASE_URL) => {
-  console.log(url);
-    return mongoose.connect(url).catch(err => {
-        console.error('Mongoose failed to connect');
-        console.error(err);
-    });
+  return mongoose.connect(url, mongoOptions).catch(err => {
+    console.error("Mongoose failed to connect");
+    console.error(err);
+  });
 };
 
 const dbDisconnect = () => {
-    return mongoose.disconnect();
+  return mongoose.disconnect();
 };
 
 const dbGet = () => {
-    return mongoose;
+  return mongoose;
 };
 
 module.exports = {
-    dbConnect,
-    dbDisconnect,
-    dbGet
+  dbGet,
+  dbConnect,
+  dbDisconnect,
+  mongoOptions
 };
