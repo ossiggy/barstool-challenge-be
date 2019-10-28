@@ -106,7 +106,6 @@ const returnUpdated = async (params) => {
   try {
     const newData = await getData(feed);
     newData.feedUrl = feed;
-    console.log(newData);
     return await update({id, data: newData});
   } catch (err) {
     return err;
