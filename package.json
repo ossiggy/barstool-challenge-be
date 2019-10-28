@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "nodemon index.js",
-    "test": "mocha --recursive ./test"
+    "test": "mocha --recursive ./test --exit"
   },
   "author": "Mike Ossig",
   "license": "ISC",
