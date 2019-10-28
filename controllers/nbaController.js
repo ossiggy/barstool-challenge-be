@@ -40,8 +40,7 @@ router.post("/", jsonParser, (req, res) => {
   const { body } = req;
   if (!isValid(body, nbaFields) || body.league !== "NBA") {
     return res.status(403).json({
-      error: "format invalid, expected NBA fields",
-      error: err.message
+      error: "format invalid, expected NBA fields"
     });
   }
 
@@ -62,8 +61,7 @@ router.put("/:id", jsonParser, async (req, res) => {
   const { body, params } = req;
   if (!isValid(body, nbaFields) || body.league !== "NBA") {
     return res.status(403).json({
-      error: "format invalid, expected NBA fields",
-      error: err.message
+      error: "format invalid, expected NBA fields"
     });
   }
 
@@ -71,7 +69,7 @@ router.put("/:id", jsonParser, async (req, res) => {
     const game = await nbaService.update({ id: params.id, data: body });
     return res.status(201).json(game);
   } catch (err) {
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error", error: err.message });
   }
 });
 

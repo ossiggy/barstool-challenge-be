@@ -2,9 +2,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const { Game, mlbFields } = require("../models");
-const { compareDate, isValid } = require("../helpers");
 const { mlbService } = require("../services");
+const { compareDate, isValid } = require("../helpers");
+const { Game, mlbFields } = require("../models");
 
 const router = express.Router();
 const jsonParser = bodyParser.json();
@@ -39,14 +39,13 @@ router.get("/:id", (req, res) => {
 router.post("/", jsonParser, (req, res) => {
   const { body } = req;
   if (!isValid(body, mlbFields) || body.league !== "MLB") {
+    console.log('not valid', req.body);
     return res.status(403).json({
-      message: "format invalid, expected MLB fields",
-      error: err.message
+      message: "format invalid, expected MLB fields"
     });
   }
 
   const game = mlbService.create(req.body);
-
   Game.create(game, (err, game) => {
     if (err) {
       console.error(err);
@@ -62,8 +61,7 @@ router.put("/:id", jsonParser, async (req, res) => {
   const { body, params } = req;
   if (!isValid(body, mlbFields) || body.league !== "MLB") {
     return res.status(403).json({
-      message: "format invalid, expected MLB fields",
-      error: err.message
+      message: "format invalid, expected MLB fields"
     });
   }
 
@@ -71,7 +69,7 @@ router.put("/:id", jsonParser, async (req, res) => {
     const game = await mlbService.update({ id: params.id, data: body });
     return res.status(201).json(game);
   } catch (err) {
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error", err: err.message });
   }
 });
 
