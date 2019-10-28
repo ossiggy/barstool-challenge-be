@@ -1,6 +1,6 @@
 const sinon = require('sinon');
 const assert = require('chai').assert;
-const testData = require('../structures/mlb.json')
+const testData = require('../structures/mlb.json');
 const { mlbService, gameService } = require('../../services');
 const {
   Game,
