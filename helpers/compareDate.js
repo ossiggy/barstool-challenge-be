@@ -6,10 +6,7 @@ const compareDate = (prev) => {
   const oldStamp = timestamp.fromDate(prev);
   const current = timestamp.now();
   const difference = current - oldStamp;
-  if (difference >= 15) {
-    return true;
-  }
-  return false;
+  return difference >= 15;
 };
 
 module.exports = compareDate;
