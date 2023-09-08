@@ -1,19 +1,16 @@
-"use strict";
-const express = require("express");
+import { Request, Response, Router } from "express";
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const { mlbService } = require("../services");
 const { compareDate, isValid } = require("../helpers");
 const { Game, mlbFields } = require("../models");
 
-const router = express.Router();
-const jsonParser = bodyParser.json();
+const router = Router();
 
 mongoose.Promise = global.Promise;
 
 router.get("/:id", (req, res) => {
   Game.findById(req.params.id)
-    .then(async game => {
+    .then(async (game) => {
       if (!game) {
         return res.status(404).json({ error: "Game not found" });
       }
@@ -21,14 +18,14 @@ router.get("/:id", (req, res) => {
         console.log("over 15 second mark", game.feedUrl);
         const newGame = await mlbService.returnUpdated({
           id: req.params.id,
-          feed: game.feedUrl
+          feed: game.feedUrl,
         });
         return res.json(newGame);
       }
       console.log("under 15 second mark");
       return res.json(game);
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
       return res
         .status(500)
@@ -36,12 +33,12 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.post("/", jsonParser, (req, res) => {
+router.post("/", (req, res) => {
   const { body } = req;
   if (!isValid(body, mlbFields) || body.league !== "MLB") {
-    console.log('not valid', req.body);
+    console.log("not valid", req.body);
     return res.status(403).json({
-      message: "format invalid, expected MLB fields"
+      message: "format invalid, expected MLB fields",
     });
   }
 
@@ -57,11 +54,11 @@ router.post("/", jsonParser, (req, res) => {
   });
 });
 
-router.put("/:id", jsonParser, async (req, res) => {
+router.put("/:id", async (req, res) => {
   const { body, params } = req;
   if (!isValid(body, mlbFields) || body.league !== "MLB") {
     return res.status(403).json({
-      message: "format invalid, expected MLB fields"
+      message: "format invalid, expected MLB fields",
     });
   }
 
@@ -69,7 +66,9 @@ router.put("/:id", jsonParser, async (req, res) => {
     const game = await mlbService.update({ id: params.id, data: body });
     return res.status(201).json(game);
   } catch (err) {
-    return res.status(500).json({ message: "Internal server error", err: err.message });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", err: err.message });
   }
 });
 

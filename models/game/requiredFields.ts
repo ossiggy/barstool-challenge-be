@@ -1,4 +1,4 @@
-const gameFields = [
+export const gameFields = [
   "feedUrl",
   "league",
   "away_team",
@@ -9,7 +9,5 @@ const gameFields = [
   "home_period_scores",
   "eventInfo",
   "officials",
-  "updatedAt"
+  "updatedAt",
 ];
-
-module.exports = gameFields;
