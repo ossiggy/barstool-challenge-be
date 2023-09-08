@@ -2,8 +2,8 @@ import { formatMlbData } from "./mlbData";
 import { formatNbaData } from "./nbaData";
 
 import type { MlbGameStatsProps, NbaGameStatsProps } from "../types";
-//type guards for multiple argument types in "formatData".  Allows for 2 different types to be passed as the same arg.
 
+//type guards for multiple argument types in "formatData".  Allows for 2 different types to be passed as the same arg.
 const isMlb = (
   gameProps: MlbGameStatsProps | NbaGameStatsProps
 ): gameProps is MlbGameStatsProps => gameProps.league === "MLB";
