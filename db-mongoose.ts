@@ -1,7 +1,5 @@
 import mongoose, { ConnectOptions } from "mongoose";
 
-mongoose.Promise = global.Promise;
-
 export const mongoOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,

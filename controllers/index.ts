@@ -8,8 +8,6 @@ import {
 import { compareDate, isValid, mlbFields, nbaFields } from "../helpers";
 import { GameStats } from "../models";
 
-mongoose.Promise = global.Promise;
-
 export const getGameDataById = (req: Request, res: Response) => {
   GameStats.findById(req.params.id)
     .then(async (game) => {
