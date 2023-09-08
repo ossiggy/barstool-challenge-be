@@ -54,8 +54,8 @@ export const formatMlbData = ({
       },
     },
     totals: {
-      away_batter_totals,
-      home_batter_totals,
+      away: away_batter_totals,
+      home: home_batter_totals,
     },
   };
 };
