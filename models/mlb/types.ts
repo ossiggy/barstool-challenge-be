@@ -54,7 +54,7 @@ export interface PitcherSchemaType {
   pitch_order: number;
   win: boolean;
   loss: boolean;
-  save: boolean;
+  _save: boolean;
   hold: boolean;
   era: number;
   whip: number;
@@ -70,8 +70,10 @@ export interface PitcherSchemaType {
   pitches_strikes: number;
   wild_pitches: number;
   hit_by_pitch: number;
-  errors: number;
+  _errors: number;
   team_abbreviation: string;
+  save?: string;
+  errors?: number;
 }
 
 export interface BatterTotalsSchemaType {
@@ -120,6 +122,7 @@ export interface FielderSchemaType {
   display_name: string;
   _errors: number;
   team_abbreviation: string;
+  errors?: number;
 }
 
 export interface MlbSchemaBaseProps {

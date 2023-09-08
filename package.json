@@ -2,13 +2,13 @@
   "name": "scoreboard-challenge-be",
   "version": "1.0.0",
   "description": "BE for the Scoreboard fullstack challenge",
-  "main": "index.js",
+  "main": "index.ts",
   "directories": {
     "test": "mocha"
   },
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "mocha --recursive ./test --exit"
+    "start": "ts-node .",
+    "test": "ts-mocha -p ./tsconfig.json ./test/**/*.ts --exit"
   },
   "author": "Mike Ossig",
   "license": "ISC",

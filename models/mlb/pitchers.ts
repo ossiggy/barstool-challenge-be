@@ -7,7 +7,7 @@ export const PitcherSchema = new Schema({
   pitch_order: { type: Number, required: true },
   win: { type: Boolean, required: true },
   loss: { type: Boolean, required: true },
-  save: { type: Boolean, required: true },
+  _save: { type: Boolean, required: true },
   hold: { type: Boolean, required: true },
   era: { type: Number, required: true },
   whip: { type: Number, required: true },
@@ -23,6 +23,6 @@ export const PitcherSchema = new Schema({
   pitches_strikes: { type: Number, required: true },
   wild_pitches: { type: Number, required: true },
   hit_by_pitch: { type: Number, required: true },
-  errors: { type: Number, required: true },
+  _errors: { type: Number, required: true },
   team_abbreviation: { type: String, required: true },
 });

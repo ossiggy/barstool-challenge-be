@@ -9,11 +9,11 @@ export const GameStatsSchema = new Schema({
   league: { type: String, required: true },
   away_team: TeamInfoSchema,
   home_team: TeamInfoSchema,
-  stats: { type: mongoose.Schema.Types.Mixed },
-  totals: { type: mongoose.Schema.Types.Mixed },
+  stats: { type: Schema.Types.Mixed },
+  totals: { type: Schema.Types.Mixed },
   away_period_scores: [{ type: Number, required: true }],
   home_period_scores: [{ type: Number, required: true }],
-  eventInfo: EventInfoSchema,
+  event_information: EventInfoSchema,
   officials: [OfficialsSchema],
   updatedAt: { type: Date, default: Date.now, required: false },
 });
@@ -31,7 +31,7 @@ GameStatsSchema.method("apiRepr", function () {
     totals: this.totals || [],
     away_period_scores: this.away_period_scores || [],
     home_period_scores: this.home_period_scores || [],
-    eventInfo: this.eventInfo || {},
+    event_information: this.event_information || {},
     officials: this.officials || [],
     updatedAt: this.Date || "",
   };

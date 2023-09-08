@@ -1,10 +1,11 @@
-const {
-  NBA,
-  nbaFields,
-  nbaPlayerFields,
-  NbaTotalsSchema,
-  NbaPlayerStatsSchema,
-} = require("./nba");
+export { GameStats } from "./game";
+export type {
+  TeamInfoSchemaType,
+  OfficialsSchemaType,
+  SiteInfoSchemaType,
+  EventInfoSchemaType,
+  GameStatsSchemaBaseProps,
+} from "./game/types";
 
 export { MlbStats } from "./mlb";
 export type {
@@ -15,11 +16,9 @@ export type {
   MlbSchemaBaseProps,
 } from "./mlb/types";
 
-export { GameStats } from "./game";
+export { NbaStats } from "./nba";
 export type {
-  TeamInfoSchemaType,
-  OfficialsSchemaType,
-  SiteInfoSchemaType,
-  EventInfoSchemaType,
-  GameStatsSchemaBaseProps,
-} from "./game/types";
+  NbaPlayerStatsSchemaType,
+  NbaTotalsSchemaType,
+  NbaSchemaBaseProps,
+} from "./nba/types";

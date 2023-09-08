@@ -42,13 +42,13 @@ export interface GameStatsSchemaBaseProps {
   league: string;
   away_team: TeamInfoSchemaType;
   home_team: TeamInfoSchemaType;
-  stats: any;
-  totals: any;
+  officials: OfficialsSchemaType[];
   away_period_scores: number[];
   home_period_scores: number[];
-  eventInfo: EventInfoSchemaType;
-  officials: OfficialsSchemaType[];
+  event_information: EventInfoSchemaType;
   updatedAt: Date;
+  stats?: any;
+  totals?: any;
 }
 
 export interface GameStatsSchemaProps extends GameStatsSchemaBaseProps {

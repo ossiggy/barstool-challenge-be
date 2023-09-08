@@ -1,8 +1,8 @@
 import express from "express";
 import mongoose, { ConnectOptions, MongooseError } from "mongoose";
-
 import { dbConnect, mongoOptions } from "./db-mongoose";
 import { PORT, DATABASE_URL } from "./config";
+import { router as gameRouter } from "./routes";
 
 const app = express();
 app.use(express.json());
@@ -16,8 +16,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/nba/", nbaRouter);
-app.use("/mlb/", mlbRouter);
+app.use("/api/", gameRouter);
 
 let server: any;
 
