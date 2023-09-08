@@ -6,11 +6,11 @@ import type { MlbGameStatsProps, NbaGameStatsProps } from "../types";
 
 const isMlb = (
   gameProps: MlbGameStatsProps | NbaGameStatsProps
-): gameProps is MlbGameStatsProps => gameProps.league === "mlb";
+): gameProps is MlbGameStatsProps => gameProps.league === "MLB";
 
 const isNba = (
   gameProps: MlbGameStatsProps | NbaGameStatsProps
-): gameProps is NbaGameStatsProps => gameProps.league === "nba";
+): gameProps is NbaGameStatsProps => gameProps.league === "NBA";
 
 export const formatData = (
   gameProps: MlbGameStatsProps | NbaGameStatsProps
