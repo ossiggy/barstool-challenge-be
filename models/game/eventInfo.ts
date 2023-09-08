@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import SiteInfoSchema from "./siteInfo";
+import { SiteInfoSchema } from "./siteInfo";
 
 export const EventInfoSchema = new Schema({
   temperature: { type: Number, required: false },

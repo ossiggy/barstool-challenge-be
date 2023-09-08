@@ -23,20 +23,18 @@ let server: any;
 
 export const runServer = (databaseUrl = DATABASE_URL, port = PORT) => {
   return new Promise<void>((resolve, reject) => {
-    mongoose.connect(
-      databaseUrl,
-      mongoOptions as ConnectOptions).catch((err: MongooseError) => reject(err));
-      server = app
-        .listen(port, () => {
-          console.log(`Your app is listening on port ${port}`);
-          resolve();
-        })
-        .on("error", (err) => {
-          mongoose.disconnect();
-          reject(err);
-        });
-      }
-    );
+    mongoose
+      .connect(databaseUrl, mongoOptions as ConnectOptions)
+      .catch((err: MongooseError) => reject(err));
+    server = app
+      .listen(port, () => {
+        console.log(`Your app is listening on port ${port}`);
+        resolve();
+      })
+      .on("error", (err) => {
+        mongoose.disconnect();
+        reject(err);
+      });
   });
 };
 
