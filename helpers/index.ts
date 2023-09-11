@@ -11,3 +11,4 @@ export {
   nbaPlayerFields,
   gameFields,
 } from "./requiredFields";
+export { runUserValidation } from "./runUserValidation";

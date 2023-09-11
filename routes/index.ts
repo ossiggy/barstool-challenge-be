@@ -1,15 +1,3 @@
-import { Router } from "express";
-import {
-  getGameDataById,
-  postGameData,
-  updateGameDataById,
-} from "../controllers";
-
-const router = Router();
-
-router
-  .get("/:id", getGameDataById)
-  .post("/", postGameData)
-  .put("/:id", updateGameDataById);
-
-export { router };
+export { router as authRouter } from "./auth";
+export { router as userRouter } from "./users";
+export { router as gameRouter } from "./game";

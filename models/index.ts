@@ -22,3 +22,6 @@ export type {
   NbaTotalsSchemaType,
   NbaSchemaBaseProps,
 } from "./nba/types";
+
+export { User } from "./users";
+export type { UserDocument, UserToUpdate } from "./users/types";
