@@ -3,6 +3,7 @@ import mongoose, { ConnectOptions } from "mongoose";
 export const mongoOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  family: 4,
 };
 
 export const dbConnect = (url: string) => {

@@ -4,6 +4,7 @@ export type {
   OfficialsSchemaType,
   SiteInfoSchemaType,
   EventInfoSchemaType,
+  GameStatsSchemaProps,
   GameStatsSchemaBaseProps,
 } from "./game/types";
 
@@ -25,3 +26,13 @@ export type {
 
 export { User } from "./users";
 export type { UserDocument, UserToUpdate } from "./users/types";
+
+export {
+  gameFields,
+  nbaFields,
+  nbaPlayerFields,
+  mlbFields,
+  mlbPitcherFields,
+  mlbBatterFields,
+  mlbFielderFields,
+} from "./requiredFields";

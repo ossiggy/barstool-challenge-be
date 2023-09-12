@@ -4,7 +4,7 @@ import {
   MlbSchemaBaseProps,
 } from "../../models";
 
-const cleanPitchers = (pitchers: PitcherSchemaType[]) => {
+export const cleanPitchers = (pitchers: PitcherSchemaType[]) => {
   return pitchers.map((pitcher) => {
     const newPitcher: PitcherSchemaType = Object.assign({}, pitcher, {
       _save: pitcher.save,
@@ -16,7 +16,7 @@ const cleanPitchers = (pitchers: PitcherSchemaType[]) => {
   });
 };
 
-const cleanFielders = (fielders: FielderSchemaType[]) => {
+export const cleanFielders = (fielders: FielderSchemaType[]) => {
   return fielders.map((fielder) => {
     const newFielder = Object.assign({}, fielder, {
       _errors: fielder.errors,

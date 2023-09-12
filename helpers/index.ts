@@ -1,6 +1,5 @@
 export { isValid } from "./validator";
 export { formatData } from "./formatData";
-export { getGameData } from "./getGameData";
 export { compareDate } from "./compareDate";
 export {
   mlbFields,
@@ -10,5 +9,6 @@ export {
   nbaFields,
   nbaPlayerFields,
   gameFields,
-} from "./requiredFields";
+} from "../models/requiredFields";
 export { runUserValidation } from "./runUserValidation";
+export * as formatters from "./formatData";

@@ -1,7 +1,7 @@
-import { compare, hash } from "bcryptjs";
+import { compare, hash } from "bcrypt";
 import { Schema, Model, model } from "mongoose";
-
-import { UserDocument } from "./types";
+import { SALT_ROUNDS } from "../../config";
+import type { UserDocument } from "./types";
 
 export interface User extends UserDocument {
   validatePassword(password: string): boolean;
@@ -49,7 +49,7 @@ UserSchema.method(
 
 UserSchema.static(
   "hashPassword",
-  (password: string): Promise<string> => hash(password, 10)
+  (password: string): Promise<string> => hash(password, SALT_ROUNDS)
 );
 
 export const User: UserModel = model<User, UserModel>("User", UserSchema);

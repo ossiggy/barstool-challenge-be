@@ -1,5 +1,5 @@
-export const compareDate = (prev: Date) => {
+export const compareDate = (prev: Date | string) => {
   const time = new Date().getTime() - new Date(prev).getTime();
   console.log("Time Difference:", time);
-  return time >= 15;
+  return time >= 1500;
 };

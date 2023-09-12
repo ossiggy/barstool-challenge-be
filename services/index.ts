@@ -1,49 +1,57 @@
+import axios from "axios";
 import { GameStats } from "../models";
-import { formatData, getGameData } from "../helpers";
-import type { MlbGameStatsProps, NbaGameStatsProps } from "../helpers/types";
+import { formatData } from "../helpers";
+import {
+  GetGameData,
+  UpdateGameInfo,
+  ReturnUpdatedGameInfo,
+  CreateGameInfo,
+} from "./types";
 
-export const updateGameInfo = async ({
-  id,
-  data,
-}: {
-  id: string;
-  data: any;
-}) => {
+export const getGameData: GetGameData = async (url) => {
+  try {
+    return await axios.get(url);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const updateGameInfo: UpdateGameInfo = async (id, data) => {
   try {
     const updateData = Object.assign({}, data, {
       updatedAt: new Date(),
     });
 
-    return await GameStats.findOneAndUpdate(
+    const updated = await GameStats.findOneAndUpdate(
       { _id: id },
       { $set: updateData },
       { new: true }
     );
-  } catch (err) {}
-};
 
-export const returnUpdatedGameInfo = async ({
-  id,
-  feed,
-}: {
-  id: string;
-  feed: string;
-}) => {
-  try {
-    const newData = await getGameData(feed);
-    return await updateGameInfo({ id, data: newData });
+    return updated?.apiRepr();
   } catch (err) {
     return err;
   }
 };
 
-export const createGameInfo = async (
-  params: MlbGameStatsProps | NbaGameStatsProps
+export const returnUpdatedGameInfo: ReturnUpdatedGameInfo = async (
+  id,
+  feed
 ) => {
   try {
+    const newData = await getGameData(feed);
+    return await updateGameInfo(id, newData);
+  } catch (err) {
+    return err;
+  }
+};
+
+export const createGameInfo: CreateGameInfo = async (params) => {
+  try {
     const game = formatData(params);
-    return await GameStats.create(game);
-  } catch (err: unknown) {
+    const results = await GameStats.create(game);
+    return results.apiRepr();
+  } catch (err) {
     console.error(err);
     return err;
   }

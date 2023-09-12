@@ -1,10 +1,11 @@
 import express from "express";
 import mongoose, { ConnectOptions, MongooseError } from "mongoose";
 import { dbConnect, mongoOptions } from "./db-mongoose";
-import { PORT, DATABASE_URL } from "./config";
-import { gameRouter, userRouter, authRouter } from "./routes";
+import { apiRouter } from "./routes";
+import { rateLimitByIp } from "./middleware";
+import { PORT, DATABASE_URL, MAX_BURST, FILL_RATE_PER_SECOND } from "./config";
 
-const app = express();
+export const app = express();
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -16,42 +17,49 @@ app.use((req, res, next) => {
   next();
 });
 
-app
-  .use("/api/game", gameRouter)
-  .use("/api/auth", authRouter)
-  .use("/api/user", userRouter);
+app.use("/api", rateLimitByIp(MAX_BURST, FILL_RATE_PER_SECOND), apiRouter);
 
 let server: any;
 
-export const runServer = (databaseUrl = DATABASE_URL, port = PORT) => {
-  return new Promise<void>((resolve, reject) => {
-    mongoose
-      .connect(databaseUrl, mongoOptions as ConnectOptions)
-      .catch((err: MongooseError) => reject(err));
-    server = app
-      .listen(port, () => {
+export const runServer = async (
+  databaseUrl = DATABASE_URL,
+  port = PORT
+): Promise<void> => {
+  return new Promise<void>(async (resolve, reject) => {
+    try {
+      await mongoose.connect(databaseUrl, mongoOptions as ConnectOptions);
+
+      server = app.listen(port, () => {
         console.log(`Your app is listening on port ${port}`);
         resolve();
-      })
-      .on("error", (err) => {
+      });
+
+      server.on("error", (err: MongooseError) => {
         mongoose.disconnect();
         reject(err);
       });
+    } catch (err) {
+      reject(err);
+    }
   });
 };
 
-export const closeServer = () => {
-  return mongoose.disconnect().then(() => {
-    return new Promise<void>((resolve, reject) => {
+export const closeServer = async (): Promise<void> => {
+  try {
+    await mongoose.disconnect();
+    await new Promise<void>((resolve, reject) => {
       console.log("Closing server");
-      return server.close((err: any) => {
+      server.close((err: any) => {
         if (err) {
-          return reject(err);
+          reject(err);
+        } else {
+          resolve();
         }
-        resolve();
       });
     });
-  });
+  } catch (err) {
+    throw err;
+  }
 };
 
 if (require.main === module) {

@@ -43,10 +43,10 @@ export interface NbaTotalsSchemaType {
   defensive_rebounds: number;
   offensive_rebounds: number;
   personal_fouls: number;
-  is_starter: boolean;
   field_goal_percentage: number;
   three_point_percentage: number;
   free_throw_percentage: number;
+  is_starter?: boolean;
 }
 
 export interface NbaSchemaBaseProps {

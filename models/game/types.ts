@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import { Model, ObjectId } from "mongoose";
 
 export interface TeamInfoSchemaType {
   team_id: string;
@@ -33,7 +33,7 @@ export interface EventInfoSchemaType {
   duration?: string;
   status?: string;
   season_type?: string;
-  start_date_time: Date;
+  start_date_time: Date | string;
   site: SiteInfoSchemaType;
 }
 
@@ -46,12 +46,13 @@ export interface GameStatsSchemaBaseProps {
   away_period_scores: number[];
   home_period_scores: number[];
   event_information: EventInfoSchemaType;
-  updatedAt: Date;
+  updatedAt: Date | string;
   stats?: any;
   totals?: any;
 }
 
 export interface GameStatsSchemaProps extends GameStatsSchemaBaseProps {
+  id: string;
   apiRepr(): GameStatsSchemaBaseProps;
 }
 

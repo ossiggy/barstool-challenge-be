@@ -7,7 +7,7 @@ export const gameFields = [
   "totals",
   "away_period_scores",
   "home_period_scores",
-  "eventInfo",
+  "event_information",
   "officials",
   "updatedAt",
 ];
