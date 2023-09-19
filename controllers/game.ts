@@ -7,6 +7,31 @@ import {
 import { compareDate, isValid, mlbFields, nbaFields } from "../helpers";
 import { GameStats } from "../models";
 
+const validLeagues = ["mlb", "nba"];
+
+export const getGameDataByLeague = async (req: Request, res: Response) => {
+  try {
+    const { league } = req.params;
+    if (!validLeagues.includes(league)) {
+      return res.status(500).json({ error: "Invalid league" });
+    }
+    const game = await GameStats.findOne({
+      league: req.params.league.toUpperCase(),
+    });
+    if (!game) {
+      return res.status(404).json({ error: "Game not found" });
+    }
+    if (compareDate(game.updatedAt)) {
+      const newGame = await returnUpdatedGameInfo(game.id, game.feedUrl);
+      return res.json(newGame);
+    }
+    return res.json(game);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "something went wrong" });
+  }
+};
+
 export const getGameDataById = async (req: Request, res: Response) => {
   try {
     const game = await GameStats.findById(req.params.id);

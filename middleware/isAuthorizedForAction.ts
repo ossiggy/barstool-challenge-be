@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { ParamsDictionary } from "express-serve-static-core";
 import jwt_decode from "jwt-decode";
 
-type TokenData = {
+interface TokenData {
   user: {
     _id: string;
     username: string;
@@ -11,7 +11,7 @@ type TokenData = {
     merchantAccounts?: [any];
     configurations?: [any];
   };
-};
+}
 
 type AuthorizedParams = {
   userId: string;

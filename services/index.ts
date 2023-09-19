@@ -10,7 +10,8 @@ import {
 
 export const getGameData: GetGameData = async (url) => {
   try {
-    return await axios.get(url);
+    const { data } = await axios.get(url);
+    return data;
   } catch (err) {
     console.error(err);
   }

@@ -2,8 +2,8 @@ import express from "express";
 import { localAuth, jwtAuth } from "../middleware";
 import { login, refresh } from "../controllers";
 
-const router = express.Router();
+const authRouter = express.Router();
 
-router.post("/login", localAuth, login).post("/refresh", jwtAuth, refresh);
+authRouter.post("/login", localAuth, login).post("/refresh", jwtAuth, refresh);
 
-export { router, jwtAuth };
+export { authRouter, jwtAuth };

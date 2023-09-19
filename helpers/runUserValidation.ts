@@ -1,7 +1,7 @@
 import isEmail from "validator/lib/isEmail";
 import { User } from "../models";
 
-type SizedFields = {
+interface SizedFields {
   username: {
     min: number;
     max: number;
@@ -13,14 +13,14 @@ type SizedFields = {
     [key: string]: number;
   };
   [key: string]: any;
-};
+}
 
-type ReqBody = {
+interface ReqBody {
   username: string;
   password: string;
   email: string;
   [key: string]: string;
-};
+}
 
 const checkForExistingUser = async ({ username }: ReqBody) => {
   try {

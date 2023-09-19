@@ -1,4 +1,4 @@
-import { Model, ObjectId } from "mongoose";
+import { Model } from "mongoose";
 
 export interface TeamInfoSchemaType {
   team_id: string;
