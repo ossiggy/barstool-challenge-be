@@ -2,15 +2,13 @@
   "name": "scoreboard-challenge-be",
   "version": "1.0.0",
   "description": "BE for the Scoreboard fullstack challenge",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "directories": {
     "test": "mocha"
   },
   "scripts": {
-    "start": "node .",
-    "test": "ts-mocha -p ./tsconfig.json ./test/**/*.ts --exit",
-    "tsc": "./node_modules/typescript/bin/tsc",
-    "postinstall": "npm run tsc"
+    "build": "tsc --build tsconfig.json",
+    "start": "node dist/index.js"
   },
   "author": "Mike Ossig",
   "license": "ISC",
@@ -28,7 +26,6 @@
     "passport-local": "^1.0.0",
     "sinon": "^7.5.0",
     "sinon-chai": "^3.3.0",
-    "ts-node": "^10.9.1",
     "validator": "^13.11.0"
   },
   "devDependencies": {
@@ -51,6 +48,7 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "nodemon": "^1.12.1",
     "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
 }
