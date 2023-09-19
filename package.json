@@ -7,8 +7,10 @@
     "test": "mocha"
   },
   "scripts": {
-    "start": "ts-node .",
-    "test": "ts-mocha -p ./tsconfig.json ./test/**/*.ts --exit"
+    "start": "node .",
+    "test": "ts-mocha -p ./tsconfig.json ./test/**/*.ts --exit",
+    "tsc": "./node_modules/typescript/bin/tsc",
+    "postinstall": "npm run tsc"
   },
   "author": "Mike Ossig",
   "license": "ISC",
