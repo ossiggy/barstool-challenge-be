@@ -8,8 +8,6 @@ interface TokenData {
     username: string;
     password: string;
     email: string;
-    merchantAccounts?: [any];
-    configurations?: [any];
   };
 }
 
